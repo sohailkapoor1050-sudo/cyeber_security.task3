@@ -1,0 +1,69 @@
+#define CROW_MAIN
+#include "crow_all.h"
+
+int main() {
+    crow::SimpleApp app;
+
+    CROW_ROUTE(app, "/")([](){
+        std::string html = R"(
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Network Security Threats Report</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 900px; margin: 0 auto; padding: 20px; line-height: 1.6; }
+        h1, h2 { color: #2c3e50; }
+        h1 { text-align: center; }
+        table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        .threat { background-color: #ecf0f1; margin: 15px 0; padding: 15px; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <h1>Research Report: Common Network Security Threats</h1>
+    
+    <h2>Overview</h2>
+    <p>Modern networks face constant threats from attacks like Denial of Service (DoS), Man-in-the-Middle (MITM), and spoofing. These exploits disrupt operations, steal data, or enable further breaches with significant financial and reputational damage.</p>
+
+    <div class="threat">
+        <h2>1. Denial of Service (DoS) Attacks</h2>
+        <p><strong>How it works:</strong> Attackers flood targets with traffic (e.g., SYN floods or UDP floods) overwhelming servers or networks.</p>
+        <p><strong>Impact:</strong> Service downtime, lost revenue; DDoS variants amplify via botnets.</p>
+        <p><strong>Example:</strong> 2016 Dyn DDoS using Mirai botnet disrupted major sites like Twitter.</p>
+        <p><strong>Mitigation:</strong> Traffic filtering, rate limiting, CDN services like Cloudflare, IDS/IPS systems.</p>
+    </div>
+
+    <div class="threat">
+        <h2>2. Man-in-the-Middle (MITM) Attacks</h2>
+        <p><strong>How it works:</strong> Intercepts communication (e.g., ARP poisoning, fake Wi-Fi hotspots) to eavesdrop or alter data.</p>
+        <p><strong>Impact:</strong> Credential theft, data manipulation; common on unsecured Wi-Fi.</p>
+        <p><strong>Example:</strong> 2014 Heartbleed bug enabled MITM data leaks from HTTPS sites.</p>
+        <p><strong>Mitigation:</strong> Enforce HTTPS/TLS 1.3, certificate pinning, VPNs, HSTS headers.</p>
+    </div>
+
+    <div class="threat">
+        <h2>3. Spoofing Attacks</h2>
+        <p><strong>How it works:</strong> Fakes source IP/MAC/DNS (e.g., IP spoofing in Smurf attacks) to bypass filters or impersonate trusted hosts.</p>
+        <p><strong>Impact:</strong> Unauthorized access, DoS amplification; erodes trust in network traffic.</p>
+        <p><strong>Example:</strong> 2007 Estonia cyberattacks used DNS spoofing alongside DoS.</p>
+        <p><strong>Mitigation:</strong> ingress/egress filtering, BCP 38, DNSSEC, RA Guard for IPv6.</p>
+    </div>
+
+    <h2>Summary Table</h2>
+    <table>
+        <tr><th>Threat</th><th>Mechanism</th><th>Real-World Impact</th><th>Key Defenses</th></tr>
+        <tr><td>DoS/DDoS</td><td>Traffic overload</td><td>Site outages (hours-days)</td><td>Rate limiting, scrubbing centers</td></tr>
+        <tr><td>MITM</td><td>Traffic interception</td><td>Data theft</td><td>TLS encryption, VPN</td></tr>
+        <tr><td>Spoofing</td><td>Identity forgery</td><td>Access bypass</td><td>Packet filtering, DNSSEC</td></tr>
+    </table>
+
+    <p><em>Stay vigilant: Layered defenses (firewalls, updates, training) reduce risks significantly.</em></p>
+</body>
+</html>
+        )";
+        return html;
+    });
+
+    app.port(8080).multithreaded().run();
+}
